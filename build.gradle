@@ -1,0 +1,134 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+apply from: 'quality/pmd.gradle'
+apply from: 'quality/findbug.gradle'
+apply from: 'quality/checkstyle.gradle'
+
+version = '1.0.0-SNAPSHOT'
+group = 'com.nn'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.3.RELEASE")
+
+        //classpath "jp.classmethod.aws:gradle-aws-plugin:0.27"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+apply plugin: 'maven-publish'
+
+jar {
+    baseName = 'nn-frontline-service'
+    manifest {
+        attributes 'Main-Class': 'com.nn.service.Application'
+    }
+}
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+
+    compile("org.springframework.boot:spring-boot-starter-web:1.3.3.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter-cache:1.3.3.RELEASE")
+    compile("org.springframework.data:spring-data-jpa:1.9.4.RELEASE")
+
+    compile("mysql:mysql-connector-java:5.1.38")
+    compile("com.mchange:c3p0:0.9.5.2")
+
+
+    compile("org.hibernate:hibernate-core:5.0.7.Final")
+    compile("org.hibernate:hibernate-entitymanager:5.0.7.Final")
+
+    compile("com.amazonaws:aws-java-sdk:1.10.62")
+
+    compile("ch.qos.logback:logback-core:1.1.7")
+    compile("ch.qos.logback:logback-classic:1.1.7")
+    compile("org.slf4j:slf4j-api:1.7.12")
+
+    compile ("net.sf.ehcache:ehcache:2.9.0")
+
+    compile group: 'aspectj', name: 'aspectjweaver', version: '1.5.4'
+    compile 'io.jsonwebtoken:jjwt:0.6.0'
+
+    testCompile("org.springframework:spring-jdbc:4.2.4.RELEASE")
+    testCompile("org.springframework:spring-orm:4.2.4.RELEASE")
+    testCompile group: 'aspectj', name: 'aspectjweaver', version: '1.5.4'
+
+    testCompile("org.mockito:mockito-core:1.10.19")
+    testCompile("org.springframework:spring-test:4.1.5.RELEASE")
+    testCompile("junit:junit")
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.13'
+}
+
+
+bootRun {
+    if ( project.hasProperty('jvmArgs') ) {
+        jvmArgs = (project.jvmArgs.split("\\s+") as List)
+
+    }
+}
+
+// avoid executing integration test (it wont work in jenkins box because for the moment, lacks database)
+task intTest( type: Test ) {
+    include '**/*IntTest.*'
+}
+
+test {
+    // explicitly include or exclude tests
+    exclude '**/*IntTest.*'
+}
+
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+task bundle(type:Zip, dependsOn: 'procfile') {
+
+    from ('.')
+    include 'Procfile'
+    from ('build/libs')
+    include('*.jar')
+    into '.'
+    archiveName("${rootProject.name}-${version}.zip")
+    zip64 true
+}
+
+task procfile() {
+
+    def procF = new File('Procfile')
+
+    if (project.hasProperty("env")) {
+        println("creating Procfile for environment ${env}")
+        if ("${env}".toString() in ['dev','prod', 'local']) {
+            procF.text = "web: java -Dspring.profiles.active=${env} -jar ${rootProject.name}-${version}.jar"
+            return
+        } else {
+            println("${env} is not recognizable environment, use default.")
+        }
+    }
+
+    procF.text = "web: java -jar ${rootProject.name}-${version}.jar"
+    println("The 'env' argument is missing use -Penv=[prod|dev|local]")
+}

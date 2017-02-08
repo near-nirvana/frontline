@@ -1,0 +1,8 @@
+println "configuring $project checkstyle"
+
+apply plugin: 'checkstyle'
+
+
+checkstyle {
+    configFile = rootProject.file('quality/tools/checkstyle.xml')
+}
