@@ -21,7 +21,7 @@ public class OrganisationDaoImpl implements OrganisationDao {
 
 
     @Override
-    public Long save(Organisation organisation) {
+    public Long save(final Organisation organisation) {
         em.persist(organisation);
         return organisation.getId();
     }
@@ -57,7 +57,8 @@ public class OrganisationDaoImpl implements OrganisationDao {
 
     @Override
     public List<Organisation> findOrganisationByPostcode(final String postcode) {
-        final List<Organisation> organisations = em.createQuery("SELECT d FROM Organisation d WHERE d.postcode = :postcode")
+        final List<Organisation> organisations = em.
+                createQuery("SELECT d FROM Organisation d WHERE d.postcode = :postcode")
                 .setParameter("postcode", postcode)
                 .getResultList();
 
@@ -66,7 +67,8 @@ public class OrganisationDaoImpl implements OrganisationDao {
 
     @Override
     public List<Organisation> findOrganisationByLatLng(final Double lat, final Double lng) {
-        final List<Organisation> organisations = em.createQuery("SELECT d FROM Organisation d WHERE d.lat = :lat and d.lng = :lng")
+        final List<Organisation> organisations = em
+                .createQuery("SELECT d FROM Organisation d WHERE d.lat = :lat and d.lng = :lng")
                 .setParameter("lat", lat)
                 .setParameter("lng", lng)
                 .getResultList();

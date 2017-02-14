@@ -45,7 +45,7 @@ public class Organisation {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -53,7 +53,7 @@ public class Organisation {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -61,7 +61,7 @@ public class Organisation {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(final String url) {
         this.url = url;
     }
 
@@ -69,7 +69,7 @@ public class Organisation {
         return lat;
     }
 
-    public void setLat(Double lat) {
+    public void setLat(final Double lat) {
         this.lat = lat;
     }
 
@@ -77,7 +77,7 @@ public class Organisation {
         return lng;
     }
 
-    public void setLng(Double lng) {
+    public void setLng(final Double lng) {
         this.lng = lng;
     }
 
@@ -85,7 +85,7 @@ public class Organisation {
         return postcode;
     }
 
-    public void setPostcode(String postcode) {
+    public void setPostcode(final String postcode) {
         this.postcode = postcode;
     }
 
@@ -93,7 +93,7 @@ public class Organisation {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(final String type) {
         this.type = type;
     }
 
@@ -101,7 +101,7 @@ public class Organisation {
         return summary;
     }
 
-    public void setSummary(String summary) {
+    public void setSummary(final String summary) {
         this.summary = summary;
     }
 
@@ -109,7 +109,7 @@ public class Organisation {
         return branch;
     }
 
-    public void setBranch(String branch) {
+    public void setBranch(final String branch) {
         this.branch = branch;
     }
 
@@ -117,7 +117,7 @@ public class Organisation {
         return tags;
     }
 
-    public void setTags(String tags) {
+    public void setTags(final String tags) {
         this.tags = tags;
     }
 }
