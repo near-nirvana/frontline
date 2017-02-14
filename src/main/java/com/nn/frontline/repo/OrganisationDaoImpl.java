@@ -78,14 +78,13 @@ public class OrganisationDaoImpl implements OrganisationDao {
 
     @Override
     public List<Organisation> findOrganisationByLatLng(final Double lat, final Double lng, final Double radius) {
-        final List<Organisation> organisations = em
+        final List<Organisation> organisations = (List<Organisation>) em
 
                 .createQuery("SELECT id, name, url, lat, lng, postcode, type, summary, branch, tags, " +
                         "(6371 * acos(cos(radians(:lat)) * cos(radians(lat)) * cos(radians(lng) - radians(:lng))" +
                         " + sin(radians(:lat)) * sin(radians(lat)))) AS distance FROM Organisation " +
                         "WHERE (6371 * acos(cos(radians(:lat)) * cos(radians(lat)) * cos(radians(lng)" +
-                        " - radians(:lng)) + sin(radians(:lat)) * sin(radians(lat)))) < :radius ORDER BY distance",
-                        Organisation.class)
+                        " - radians(:lng)) + sin(radians(:lat)) * sin(radians(lat)))) < :radius ORDER BY distance")
                 
                 
                 .setParameter("lat", lat)
