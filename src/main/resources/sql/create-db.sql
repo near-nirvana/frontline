@@ -7,7 +7,7 @@ CREATE TABLE employee (
   id BIGINT NOT NULL PRIMARY KEY,
   firstname VARCHAR(50),
   surname  VARCHAR(50),
-  departmentId INTEGER
+  departmentId BIGINT
 );
 
 ALTER TABLE employee
