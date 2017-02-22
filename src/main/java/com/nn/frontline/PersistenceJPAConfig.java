@@ -96,17 +96,17 @@ public class PersistenceJPAConfig {
     @Value("${c3p0.preferredTestQuery}")
     private String preferredTestQuery;
 
-    //@Value("${spring.jpa.show-sql}")
-    //private String showSql;
+    @Value("${spring.jpa.show-sql}")
+    private String showSql;
 
-    //@Value("${spring.jpa.hibernate.ddl-auto}")
-    //private String ddlAuto;
+    @Value("${spring.jpa.hibernate.ddl-auto}")
+    private String ddlAuto;
 
-    //@Value("${spring.jpa.hibernate.naming-strategy}")
-    //private String nameingStrategy;
+    @Value("${spring.jpa.hibernate.naming-strategy}")
+    private String namingStrategy;
 
-    //@Value("${spring.jpa.properties.hibernate.dialect}")
-    //private String dialect;
+    @Value("${spring.jpa.properties.hibernate.dialect}")
+    private String dialect;
 
 
 
@@ -168,8 +168,10 @@ public class PersistenceJPAConfig {
 
     Properties additionalProperties() {
         final Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+        properties.setProperty("hibernate.hbm2ddl.auto", ddlAuto);
+        properties.setProperty("hibernate.dialect", dialect);
+        properties.setProperty("hibernate.naming-strategy", namingStrategy);
+        properties.setProperty("show_sql", showSql);
         return properties;
     }
 }

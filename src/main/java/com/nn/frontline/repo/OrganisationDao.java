@@ -1,7 +1,6 @@
 package com.nn.frontline.repo;
 
 import com.nn.frontline.model.Organisation;
-
 import java.util.List;
 
 /**
@@ -26,5 +25,4 @@ public interface OrganisationDao {
     List<Organisation> findOrganisationByLatLng(final Double lat, final Double lng);
 
     List<Organisation> findOrganisationByLatLng(final Double lat, final Double lng, final Double radius);
-
 }

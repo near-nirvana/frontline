@@ -1,10 +1,10 @@
 CREATE TABLE department (
-  id INTEGER PRIMARY KEY,
+  id BIGINT PRIMARY KEY,
   name VARCHAR(50)
 );
 
 CREATE TABLE employee (
-  id INTEGER NOT NULL PRIMARY KEY,
+  id BIGINT NOT NULL PRIMARY KEY,
   firstname VARCHAR(50),
   surname  VARCHAR(50),
   departmentId INTEGER

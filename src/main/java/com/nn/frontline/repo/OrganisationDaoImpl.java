@@ -78,13 +78,15 @@ public class OrganisationDaoImpl implements OrganisationDao {
 
     @Override
     public List<Organisation> findOrganisationByLatLng(final Double lat, final Double lng, final Double radius) {
-        final List<Organisation> organisations = (List<Organisation>) em
-
-                .createQuery("SELECT id, name, url, lat, lng, postcode, type, summary, branch, tags, " +
-                        "(6371 * acos(cos(radians(:lat)) * cos(radians(lat)) * cos(radians(lng) - radians(:lng))" +
-                        " + sin(radians(:lat)) * sin(radians(lat)))) AS distance FROM Organisation " +
+        final List<Organisation> organisations = em
+//                .createQuery("SELECT o.id, o.name, o.url, o.lat, o.lng, o.postcode, o.type, o.summary, o.branch, o.tags, " +
+//                        "(6371 * acos(cos(radians(:lat)) * cos(radians(lat)) * cos(radians(lng) - radians(:lng))" +
+//                        " + sin(radians(:lat)) * sin(radians(lat)))) AS distance FROM Organisation o " +
+//                        "WHERE (6371 * acos(cos(radians(:lat)) * cos(radians(lat)) * cos(radians(lng)" +
+//                        " - radians(:lng)) + sin(radians(:lat)) * sin(radians(lat)))) < :radius ORDER BY distance")
+                .createQuery("SELECT o FROM Organisation o " +
                         "WHERE (6371 * acos(cos(radians(:lat)) * cos(radians(lat)) * cos(radians(lng)" +
-                        " - radians(:lng)) + sin(radians(:lat)) * sin(radians(lat)))) < :radius ORDER BY distance")
+                        " - radians(:lng)) + sin(radians(:lat)) * sin(radians(lat)))) < :radius")
                 
                 
                 .setParameter("lat", lat)
