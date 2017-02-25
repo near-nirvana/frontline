@@ -26,6 +26,7 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
+@SuppressWarnings("PMD")
 public class PersistenceJPAConfig {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(PersistenceJPAConfig.class);
@@ -108,6 +109,9 @@ public class PersistenceJPAConfig {
     @Value("${spring.jpa.properties.hibernate.dialect}")
     private String dialect;
 
+    @Value("${evident.env}")
+    private String environment;
+
 
 
     @Bean
@@ -167,6 +171,10 @@ public class PersistenceJPAConfig {
     }
 
     Properties additionalProperties() {
+
+        LOGGER.info("load property for " + environment);
+
+
         final Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", ddlAuto);
         properties.setProperty("hibernate.dialect", dialect);
